@@ -7,6 +7,7 @@ import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
 import Joustes from "./components/joustes.component";
 import JoustShow from "./components/joustShow.component"
+import EditJoust from "./components/editJoust.component"
 
 //Как задеплоить
 //https://medium.com/@timmykko/deploying-create-react-app-with-nginx-and-ubuntu-e6fe83c5e9e7
@@ -73,7 +74,7 @@ class App extends Component {
       <div className="App">
         <nav className="navbar navbar-expand-lg navbar-light fixed-top">
           <div className="container">
-            <Link className="navbar-brand" to={"/joustes"}>Максим Проскуряков. ИКПИ-61. Диплом</Link>
+            <Link className="navbar-brand" to={"/joustes"}>Спортивные мероприятия</Link>
               {this.renderHeader()}
           </div>
         </nav>
@@ -85,6 +86,7 @@ class App extends Component {
             <Route path="/register" component={SignUp} mainState = {this.state} />
             <Route path="/joustes" component={Joustes} mainState = {this.state} />
             <Route path="/show-joust" component={JoustShow} mainState = {this.state} />
+            <Route path="/edit-joust" component={EditJoust} mainState = {this.state} />
           </Switch>
         </div>
       </div>

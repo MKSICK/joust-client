@@ -105,8 +105,14 @@ export default class Joustes extends Component {
                         className="btn btn-primary"  
                         style={{backgroundColor: "#ffffff"}}
                         onClick={() => {
+                            localStorage.setItem("editName", "")
+                            localStorage.setItem("editType", 0)
+                            localStorage.setItem("editDescription", "")
+                            localStorage.setItem("editLocation", "")
+                            localStorage.setItem("editDateStart", "")
+                            localStorage.setItem("editDateEnd", "")
                             localStorage.setItem("currentJoustId", -1)
-                            window.open("/joustes", "_self")
+                            window.open("/edit-joust", "_self")
                         }}
                     >
                     <h6 style={{color: "#167bff"}}>

@@ -25,9 +25,9 @@ class SelectWinner extends Component {
     render()
     {
         return (
-            <div>
+            <div style={{width:"50%"}}>
                 <select onChange={(event) => this.setWinner(event)}>
-                    <option value="0" >Выбрать победителя...</option>
+                    <option value="0" >Выбрать...</option>
                     <option value={this.props.competition.member1}>{this.props.competition.m1_name}</option>
                     <option value={this.props.competition.member2}>{this.props.competition.m2_name}</option>
                 </select>
@@ -91,12 +91,13 @@ class CircleTable extends Component {
 
 class OlympicTable extends Component {
 
-    renderRow(dataRow, length, spn, parts)
+    renderRow(stage, dataRow, length, spn, parts)
     {
         let row = []
+        let svgWidth = 300;
         let partWidth = 100 / parts / spn;
         for (let index = length; index > 0; index--) {
-            let line = (<svg >
+            let line = (<svg width={svgWidth * (stage)}>
                 <line className="competition-block"  x1="50%" y1="10" x2={index % 2 === 0 ? "100%" : "0%"} y2="100%" style={{stroke: "#167bff", strokeWidth:5}}></line>
             </svg>)
             console.log("stage", dataRow.stage)
@@ -108,7 +109,7 @@ class OlympicTable extends Component {
                 
             row.push(
                 <td id={index} align="center" colspan={spn}>
-                    <div className="competition-block" style={{width: partWidth + "%"}}>
+                    <div className="competition-block" style={{width: partWidth * 2 + "%"}}>
                         <h6>{competition.m1_name}</h6>
                         <h5>vs</h5>
                         <h6>{competition.m2_name}</h6>
@@ -128,7 +129,9 @@ class OlympicTable extends Component {
         let table = []
         let cspn = 1;
         let maxIndex = this.props.joust.copmetitions ? this.props.joust.copmetitions[0].stage-1 : 1;
+        let stage = 0;
         for (let index = maxIndex; index >= 0; index--) {
+            stage ++;
             let competitionRow = []
             this.props.joust.copmetitions.forEach(competition => {
                 if(competition.stage-1 === index)
@@ -137,7 +140,7 @@ class OlympicTable extends Component {
             console.log(competitionRow);
             table.push(
                 <tr>
-                    {this.renderRow(competitionRow, Math.pow(2, index), cspn, Math.pow(2, maxIndex))}
+                    {this.renderRow(stage, competitionRow, Math.pow(2, index), cspn, Math.pow(2, maxIndex))}
                 </tr>
             )
             cspn *= 2;
@@ -151,7 +154,10 @@ class OlympicTable extends Component {
 
     render()
     {
-        return this.renderTable()
+        if(this.props.joust.copmetitions.length > 0)
+            return this.renderTable()
+        else
+            return ""
         
     }
 }
@@ -254,7 +260,13 @@ export default class JoustShow extends Component {
                         align="right" 
                         style={{backgroundColor: "#ffffff"}}
                         onClick={() => {
-                            window.open("/joustes", "_self")
+                            localStorage.setItem("editName", props.joust.name)
+                            localStorage.setItem("editType", props.joust.type)
+                            localStorage.setItem("editDescription", props.joust.description)
+                            localStorage.setItem("editLocation", props.joust.location)
+                            localStorage.setItem("editDateStart", props.joust.date_start)
+                            localStorage.setItem("editDateEnd", props.joust.date_end)
+                            window.open("/edit-joust", "_self")
                         }}
                     >
                         <h6 style={{color: "#167bff"}}>
